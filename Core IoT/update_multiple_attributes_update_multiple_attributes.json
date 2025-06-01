@@ -1,0 +1,111 @@
+{
+  "widget": {
+    "typeFullFqn": "system.input_widgets.update_multiple_attributes",
+    "type": "latest",
+    "sizeX": 7.5,
+    "sizeY": 3,
+    "config": {
+      "datasources": [
+        {
+          "type": "device",
+          "name": "",
+          "deviceId": "4b938000-210b-11f0-a689-d544a9504c27",
+          "dataKeys": [
+            {
+              "name": "Timer1",
+              "type": "attribute",
+              "label": "Timer1",
+              "color": "#2196f3",
+              "settings": {},
+              "_hash": 0.7079340124923804
+            },
+            {
+              "name": "Timer2",
+              "type": "attribute",
+              "label": "Timer2",
+              "color": "#4caf50",
+              "settings": {},
+              "_hash": 0.5318961743053137
+            }
+          ],
+          "alarmFilterConfig": {
+            "statusList": [
+              "ACTIVE"
+            ]
+          }
+        }
+      ],
+      "timewindow": {
+        "displayValue": "",
+        "selectedTab": 0,
+        "realtime": {
+          "realtimeType": 1,
+          "interval": 1000,
+          "timewindowMs": 60000,
+          "quickInterval": "CURRENT_DAY",
+          "hideInterval": false,
+          "hideLastInterval": false,
+          "hideQuickInterval": false
+        },
+        "history": {
+          "historyType": 0,
+          "interval": 1000,
+          "timewindowMs": 60000,
+          "fixedTimewindow": {
+            "startTimeMs": 1745742799647,
+            "endTimeMs": 1745829199647
+          },
+          "quickInterval": "CURRENT_DAY",
+          "hideInterval": false,
+          "hideLastInterval": false,
+          "hideFixedInterval": false,
+          "hideQuickInterval": false
+        },
+        "aggregation": {
+          "type": "AVG",
+          "limit": 25000
+        }
+      },
+      "showTitle": true,
+      "backgroundColor": "#fff",
+      "color": "rgba(0, 0, 0, 0.87)",
+      "padding": "8px",
+      "settings": {
+        "groupTitle": "${entityName}",
+        "showActionButtons": true,
+        "fieldsAlignment": "row",
+        "fieldsInRow": 2,
+        "columnGap": 10,
+        "rowGap": 5
+      },
+      "title": "Update Multiple Attributes",
+      "dropShadow": true,
+      "enableFullscreen": false,
+      "enableDataExport": false,
+      "widgetStyle": {},
+      "titleStyle": {
+        "fontSize": "16px",
+        "fontWeight": 400
+      },
+      "useDashboardTimewindow": true,
+      "showLegend": false,
+      "actions": {},
+      "displayTimewindow": true
+    },
+    "row": 0,
+    "col": 0,
+    "id": "57d7f782-6eca-4e40-3130-efe83767d032"
+  },
+  "aliasesInfo": {
+    "datasourceAliases": {},
+    "targetDeviceAlias": null
+  },
+  "filtersInfo": {
+    "datasourceFilters": {}
+  },
+  "originalSize": {
+    "sizeX": 7,
+    "sizeY": 6
+  },
+  "originalColumns": 24
+}

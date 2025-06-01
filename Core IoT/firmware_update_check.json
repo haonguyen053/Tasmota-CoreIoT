@@ -1,0 +1,261 @@
+{
+  "ruleChain": {
+    "additionalInfo": null,
+    "name": "Firmware Update Check",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null
+  },
+  "metadata": {
+    "firstNodeIndex": 4,
+    "nodes": [
+      {
+        "additionalInfo": {
+          "layoutX": 864,
+          "layoutY": 422
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "CheckUpToDate",
+        "debugMode": true,
+        "configuration": {
+          "jsScript": "var currentFirmwareVersion; \nif(typeof msg.currentFirmwareVersion !== \"undefined\"){\n    currentFirmwareVersion = msg.currentFirmwareVersion;\n} else {\n    currentFirmwareVersion = metadata.currentFirmwareVersion;\n}\n\nreturn metadata.shared_targetFirmwareVersion === currentFirmwareVersion;"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 44,
+          "layoutY": 563
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbDuplicateMsgToGroupNode",
+        "name": "To all devices",
+        "debugMode": false,
+        "configuration": {
+          "entityGroupId": null,
+          "entityGroupIsMessageOriginator": true
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 1097,
+          "layoutY": 612
+        },
+        "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
+        "name": "Create Alarm",
+        "debugMode": false,
+        "configuration": {
+          "alarmType": "ConfigurationNotSync",
+          "alarmDetailsBuildJs": "var details = {};\nif (metadata.prevAlarmDetails) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n}\nreturn details;",
+          "severity": "CRITICAL",
+          "propagate": true
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 1092,
+          "layoutY": 186
+        },
+        "type": "org.thingsboard.rule.engine.action.TbClearAlarmNode",
+        "name": "Clear alarm",
+        "debugMode": false,
+        "configuration": {
+          "alarmType": "ConfigurationNotSync",
+          "alarmDetailsBuildJs": "var details = {};\nif (metadata.prevAlarmDetails) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n}\nreturn details;"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 171,
+          "layoutY": 367
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbMsgTypeFilterNode",
+        "name": "FIRMWARE_UPDATE_CHECK",
+        "debugMode": true,
+        "configuration": {
+          "messageTypes": [
+            "FIRMWARE_UPDATE_CHECK"
+          ]
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 524,
+          "layoutY": 171
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbMsgTypeFilterNode",
+        "name": "Is Telemetry Update?",
+        "debugMode": true,
+        "configuration": {
+          "messageTypes": [
+            "POST_TELEMETRY_REQUEST"
+          ]
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 526,
+          "layoutY": 284
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Has current Firmware Version?",
+        "debugMode": true,
+        "configuration": {
+          "jsScript": "return typeof msg.currentFirmwareVersion !== \"undefined\";"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 544,
+          "layoutY": 421
+        },
+        "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
+        "name": "Fetch target version",
+        "debugMode": true,
+        "configuration": {
+          "clientAttributeNames": [],
+          "sharedAttributeNames": [
+            "targetFirmwareVersion"
+          ],
+          "serverAttributeNames": [],
+          "latestTsKeyNames": []
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 308,
+          "layoutY": 560
+        },
+        "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
+        "name": "Fetch current version",
+        "debugMode": true,
+        "configuration": {
+          "clientAttributeNames": [],
+          "sharedAttributeNames": [],
+          "serverAttributeNames": [],
+          "latestTsKeyNames": [
+            "currentFirmwareVersion"
+          ]
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 1128,
+          "layoutY": 330
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "ToSyncFirmwareState",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "var newMsg = {\n    firmwareSync: true\n};\nreturn {msg: newMsg, metadata: metadata, msgType:\"POST_TELEMETRY_REQUEST\"};"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 1405,
+          "layoutY": 413
+        },
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
+        "name": "SaveFirmwareState",
+        "debugMode": false,
+        "configuration": {
+          "defaultTTL": 0
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 1140,
+          "layoutY": 474
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "ToNotSyncFirmwareState",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "var newMsg = {\n    firmwareSync: false\n};\nreturn {msg: newMsg, metadata: metadata, msgType:\"POST_TELEMETRY_REQUEST\"};"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 0,
+        "toIndex": 2,
+        "type": "False"
+      },
+      {
+        "fromIndex": 0,
+        "toIndex": 11,
+        "type": "False"
+      },
+      {
+        "fromIndex": 0,
+        "toIndex": 3,
+        "type": "True"
+      },
+      {
+        "fromIndex": 0,
+        "toIndex": 9,
+        "type": "True"
+      },
+      {
+        "fromIndex": 1,
+        "toIndex": 8,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 4,
+        "toIndex": 5,
+        "type": "False"
+      },
+      {
+        "fromIndex": 4,
+        "toIndex": 1,
+        "type": "True"
+      },
+      {
+        "fromIndex": 5,
+        "toIndex": 6,
+        "type": "True"
+      },
+      {
+        "fromIndex": 6,
+        "toIndex": 7,
+        "type": "True"
+      },
+      {
+        "fromIndex": 7,
+        "toIndex": 2,
+        "type": "Failure"
+      },
+      {
+        "fromIndex": 7,
+        "toIndex": 0,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 8,
+        "toIndex": 2,
+        "type": "Failure"
+      },
+      {
+        "fromIndex": 8,
+        "toIndex": 11,
+        "type": "Failure"
+      },
+      {
+        "fromIndex": 8,
+        "toIndex": 7,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 9,
+        "toIndex": 10,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 11,
+        "toIndex": 10,
+        "type": "Success"
+      }
+    ],
+    "ruleChainConnections": null
+  }
+}

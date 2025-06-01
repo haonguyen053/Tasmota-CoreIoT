@@ -87,19 +87,26 @@ Examples :
 // !!! Remember that your changes GOES AT THE BOTTOM OF THIS FILE right before the last #endif !!!
 */
 
-//#define USE_MQTT_TB_IOT
+// #define USE_MQTT_TB_IOT
 
 #ifdef ESP32
 #ifdef USER_TEMPLATE
 #undef USER_TEMPLATE
 #endif
-#define USER_TEMPLATE          "{\"NAME\":\"Yolo UNO\",\"GPIO\":[32,1,1,1,1,1,1,1,1,1,1,640,608,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1376,1,1,224],\"FLAG\":0,\"BASE\":1}" // Yolo UNO template
-#endif  // End ESP32
+#define USER_TEMPLATE "{\"NAME\":\"Yolo UNO\",\"GPIO\":[32,1,1,1,1,1,1,1,1,1,1,640,608,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1376,1,1,224],\"FLAG\":0,\"BASE\":1}" // Yolo UNO template
+#endif                                                                                                                                                                 // End ESP32
+
+#ifdef ESP8266
+#ifdef USER_TEMPLATE
+#undef USER_TEMPLATE
+#endif
+#define USER_TEMPLATE "{\"NAME\":\"Generic\",\"GPIO\":[1,1,1,32,2720,2656,1,1,2624,288,224,1,1,1],\"FLAG\":0,\"BASE\":18}"
+#endif // End ESP8266
 
 #ifdef APP_TIMEZONE
 #undef APP_TIMEZONE
 #endif
-#define APP_TIMEZONE           7
+#define APP_TIMEZONE 7
 
 // Uncomment below to compile faster with minimum features
 
@@ -163,17 +170,17 @@ Examples :
 #undef USE_LVGL
 #endif
 
-#ifdef USE_TIMERS
-#undef USE_TIMERS
-#endif
+// #ifdef USE_TIMERS
+// #undef USE_TIMERS
+// #endif
 
-#ifdef USE_RULES
-#undef USE_CUSE_RULESSE7761
-#endif
+// #ifdef USE_RULES
+// #undef USE_CUSE_RULESSE7761
+// #endif
 
-#ifdef USE_TUYA_MCU
-#undef USE_TUYA_MCU
-#endif
+// #ifdef USE_TUYA_MCU
+// #undef USE_TUYA_MCU
+// #endif
 
 #ifdef USE_PS_16_DZ
 #undef USE_PS_16_DZ
@@ -191,9 +198,9 @@ Examples :
 #undef USEUSE_LIGHT_VIRTUAL_CT_SHUTTER
 #endif
 
-#ifdef USE_ENERGY_SENSOR
-#undef USE_ENERGY_SENSOR
-#endif
+// #ifdef USE_ENERGY_SENSOR
+// #undef USE_ENERGY_SENSOR
+// #endif
 
 #ifdef USE_MCP39F501
 #undef USE_MCP39F501
@@ -235,5 +242,4 @@ Examples :
 #undef USE_VEML6070
 #endif
 
-
-#endif  // _USER_CONFIG_OVERRIDE_H_
+#endif // _USER_CONFIG_OVERRIDE_H_

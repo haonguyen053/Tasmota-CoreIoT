@@ -21,6 +21,8 @@
 
 #define USE_MQTT_NEW_PUBSUBCLIENT
 
+// #define USE_MQTT_TB_IOT
+
 // #define DEBUG_DUMP_TLS    // allow dumping of TLS Flash keys
 
 #ifdef USE_MQTT_TLS
@@ -764,7 +766,8 @@ void MqttDataHandler(char* mqtt_topic, uint8_t* mqtt_data, unsigned int data_len
 #ifdef USE_MQTT_TB_IOT
   String fullTopicString = String(mqtt_topic);
   mqtt_data[data_len] = 0;
-  //printf("Full topic '%s' payload '%s'\n", fullTopicString.c_str(), mqtt_data);
+  // printf("Full topic '%s' payload '%s'\n", fullTopicString.c_str(), mqtt_data);
+  AddLog(LOG_LEVEL_DEBUG, PSTR(D_LOG_MQTT "topic %s, mqtt_data %s"), fullTopicString.c_str(), mqtt_data);
   JsonParser mqttJsonData((char*) mqtt_data);
   JsonParserObject rootObject = mqttJsonData.getRootObject();
   if (!rootObject.isValid()) {
@@ -800,14 +803,16 @@ void MqttDataHandler(char* mqtt_topic, uint8_t* mqtt_data, unsigned int data_len
     for (auto key : rootObject) {
       // key is of type JsonParserKey
       const char *attributeName = key.getStr();
+      AddLog(LOG_LEVEL_DEBUG, PSTR(D_LOG_MQTT "attributeName (cmd) %s, len %d"), attributeName, strlen(attributeName));
       JsonParserToken valueToken = key.getValue();
       const char *attributeValue = valueToken.getStr();
       topic[0] = '/';
-      strlcpy(topic+1, attributeName, strlen(attributeValue));
+      strlcpy(topic+1, attributeName, strlen(attributeName)+1);
       data_len = strlen(attributeValue);
       strncpy(reinterpret_cast<char*>(mqtt_data), attributeValue, data_len);
       mqtt_data[data_len] = 0;
       //printf("Topic name: %s value: %s\n", topic, mqtt_data);
+      AddLog(LOG_LEVEL_DEBUG, PSTR(D_LOG_MQTT "topic %s, mqtt_data %s"), topic, mqtt_data);
       break;
     }
   }

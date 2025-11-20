@@ -3207,22 +3207,77 @@ const mytmplt kModules[] PROGMEM = {
 
 // Supported hardware modules
 enum SupportedModulesESP32S3 {
+  // YOLO_UNO,
   WEMOS,
   MAXMODULE };
 
 // Default module settings
 const uint8_t kModuleNiceList[] PROGMEM = {
+  // YOLO_UNO,
   WEMOS,
 };
 
 // !!! Update this list in the same order as kModuleNiceList !!!
 const char kModuleNames[] PROGMEM =
+  // "Yolo UNO|ESP32S3|"
   "ESP32S3|"
   ;
 
-// !!! Update this list in the same order as SupportedModulesESP32S2 !!!
+// !!! Update this list in the same order as SupportedModulesESP32S3 !!!
 const mytmplt kModules[] PROGMEM = {
-  {                              // Generic ESP32C3 device
+  // {                              // Yolo UNO
+  //   AGPIO(GPIO_USER),            // 0       IO                  RTC_GPIO0, GPIO0, Strapping
+  //   AGPIO(GPIO_USER),            // 1       AO                  RTC_GPIO1, GPIO1, TOUCH1, ADC1_CH0
+  //   AGPIO(GPIO_USER),            // 2       AO                  RTC_GPIO2, GPIO2, TOUCH2, ADC1_CH1
+  //   AGPIO(GPIO_USER),            // 3       AO                  RTC_GPIO3, GPIO3, TOUCH3, ADC1_CH2, Strapping
+  //   AGPIO(GPIO_USER),            // 4       AO                  RTC_GPIO4, GPIO4, TOUCH4, ADC1_CH3
+  //   AGPIO(GPIO_USER),            // 5       AO                  RTC_GPIO5, GPIO5, TOUCH5, ADC1_CH4
+  //   AGPIO(GPIO_USER),            // 6       AO                  RTC_GPIO6, GPIO6, TOUCH6, ADC1_CH5
+  //   AGPIO(GPIO_USER),            // 7       AO                  RTC_GPIO7, GPIO7, TOUCH7, ADC1_CH6
+  //   AGPIO(GPIO_USER),            // 8       AO                  RTC_GPIO8, GPIO8, TOUCH8, ADC1_CH7, SUBSPICS1
+  //   AGPIO(GPIO_USER),            // 9       AO                  RTC_GPIO9, GPIO9, TOUCH9, ADC1_CH8, SUBSPIHD, FSPIHD
+  //   AGPIO(GPIO_USER),            // 10      AO                  RTC_GPIO10, GPIO10, TOUCH10, ADC1_CH9, FSPIIO4, SUBSPICS0, FSPICS0
+  //   AGPIO(GPIO_USER),            // 11      AO                  RTC_GPIO11, GPIO11, TOUCH11, ADC2_CH0, FSPIIO5, SUBSPID, FSPID
+  //   AGPIO(GPIO_USER),            // 12      AO                  RTC_GPIO12, GPIO12, TOUCH12, ADC2_CH1, FSPIIO6, SUBSPICLK, FSPICLK
+  //   AGPIO(GPIO_USER),            // 13      AO                  RTC_GPIO13, GPIO13, TOUCH13, ADC2_CH2, FSPIIO7, SUBSPIQ, FSPIQ
+  //   AGPIO(GPIO_NONE),            // 14      AO                  Unused ---------- RTC_GPIO14, GPIO14, TOUCH14, ADC2_CH3, FSPIDQS, SUBSPIWP, FSPIWP
+  //   AGPIO(GPIO_NONE),            // 15      AO                  Unused ---------- RTC_GPIO15, GPIO15, U0RTS, ADC2_CH4, XTAL_32K_P
+  //   AGPIO(GPIO_NONE),            // 16      AO                  Unused ---------- RTC_GPIO16, GPIO16, U0CTS, ADC2_CH5, XTAL_32K_N
+  //   AGPIO(GPIO_USER),            // 17      AO                  RTC_GPIO17, GPIO17, U1TXD, ADC2_CH6
+  //   AGPIO(GPIO_USER),            // 18      AO                  RTC_GPIO18, GPIO18, U1RXD, ADC2_CH7, CLK_OUT3
+  //   AGPIO(GPIO_NONE),            // 19      AO                  Unused ---------- RTC_GPIO19, GPIO19, U1RTS, ADC2_CH8, CLK_OUT2, USB_D­
+  //   AGPIO(GPIO_NONE),            // 20      AO                  Unused ---------- RTC_GPIO20, GPIO20, U1CTS, ADC2_CH9, CLK_OUT1, USB_D+
+  //   AGPIO(GPIO_USER),            // 21      IO                  RTC_GPIO21, GPIO21
+  //                                // 22      --                  Unused
+  //                                // 23      --                  Unused
+  //                                // 24      --                  Unused
+  //                                // 25      --                  Unused
+  //                                // 26      FL                  SPICS1, GPIO26
+  //                                // 27      FL                  SPIHD, GPIO27
+  //                                // 28      FL                  SPIWP, GPIO28
+  //                                // 29      FL                  SPICS0, GPIO29
+  //                                // 30      FL                  SPICLK, GPIO30
+  //                                // 31      FL                  SPIQ, GPIO31
+  //                                // 32      FL                  SPID, GPIO32
+  //   AGPIO(GPIO_NONE),            // 33      IO                  SPIIO4, GPIO33, FSPIHD, SUBSPIHD
+  //   AGPIO(GPIO_NONE),            // 34      IO                  SPIIO5, GPIO34, FSPICS0, SUBSPICS0
+  //   AGPIO(GPIO_NONE),            // 35      IO                  SPIIO6, GPIO35, FSPID, SUBSPID
+  //   AGPIO(GPIO_NONE),            // 36      IO                  SPIIO7, GPIO36, FSPICLK, SUBSPICLK
+  //   AGPIO(GPIO_NONE),            // 37      IO                  SPIDQS, GPIO37, FSPIQ, SUBSPIQ
+  //   AGPIO(GPIO_USER),            // 38      IO                  GPIO38, FSPIWP, SUBSPIWP
+  //   AGPIO(GPIO_NONE),            // 39      IO                  Unused ---------- MTCK, GPIO39, CLK_OUT3, SUBSPICS1
+  //   AGPIO(GPIO_NONE),            // 40      IO                  Unused ---------- MTDO, GPIO40, CLK_OUT2
+  //   AGPIO(GPIO_NONE),            // 41      IO                  Unused ---------- MTDI, GPIO41, CLK_OUT1
+  //   AGPIO(GPIO_NONE),            // 42      IO                  Unused ---------- MTMS, GPIO42
+  //   AGPIO(GPIO_USER),            // 43      IO                  U0TXD, GPIO43, CLK_OUT1
+  //   AGPIO(GPIO_USER),            // 44      IO                  U0RXD, GPIO44, CLK_OUT2
+  //   AGPIO(GPIO_USER),            // 45      IO                  GPIO45, Strapping
+  //   AGPIO(GPIO_NONE),            // 46      IO                  Unused ---------- GPIO46, Strapping
+  //   AGPIO(GPIO_USER),            // 47      IO                  SPICLK_P_DIFF, GPIO47, SUBSPICLK_P_DIFF
+  //   AGPIO(GPIO_USER),            // 48      IO                  SPICLK_N_DIFF, GPIO48, SUBSPICLK_N_DIFF
+  //   0                            // Flag
+  // },
+  {                              // Generic ESP32S3 device
     AGPIO(GPIO_USER),            // 0       IO                  RTC_GPIO0, GPIO0, Strapping
     AGPIO(GPIO_USER),            // 1       AO                  RTC_GPIO1, GPIO1, TOUCH1, ADC1_CH0
     AGPIO(GPIO_USER),            // 2       AO                  RTC_GPIO2, GPIO2, TOUCH2, ADC1_CH1

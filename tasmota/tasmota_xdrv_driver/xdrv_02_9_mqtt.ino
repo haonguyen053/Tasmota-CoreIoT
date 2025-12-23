@@ -567,6 +567,8 @@ bool MqttPublishLib(const char* topic, const uint8_t* payload, unsigned int plen
     return true;
   }
   String attr = sourceTopicString.substring(startIndex+1, endIndex);
+  // AddLog(LOG_LEVEL_DEBUG, PSTR("Prefix '%s' attribute '%s'"), prefix.c_str(), attr.c_str());
+  
   String payloadStr = String((char*)payload);
   JsonParser parser((char*)payloadStr.c_str());
   JsonParserObject payloadRoot = parser.getRootObject();

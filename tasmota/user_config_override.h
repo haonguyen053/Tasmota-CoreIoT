@@ -93,20 +93,62 @@ Examples :
 #ifdef USER_TEMPLATE
 #undef USER_TEMPLATE
 #endif
+#ifdef MODULE
+#undef MODULE
+#endif
+#define MODULE  YOLO_UNO
+
+#ifdef FALLBACK_MODULE
+#undef FALLBACK_MODULE
+#endif
+#define FALLBACK_MODULE YOLO_UNO
 // #define USER_TEMPLATE "{\"NAME\":\"Yolo UNO\",\"GPIO\":[32,1,1,1,1,1,1,1,1,1,1,640,608,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1376,1,1,224],\"FLAG\":0,\"BASE\":1}" // Yolo UNO template
-#define USER_TEMPLATE "{\"NAME\":\"Yolo UNO\",\"GPIO\":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,0,0,1,0,0,0,0,0,1,0,0,0,0,1,1,1,0,1,1],\"FLAG\":0,\"BASE\":1}" // Yolo UNO template
+// #define USER_TEMPLATE "{\"NAME\":\"Yolo UNO\",\"GPIO\":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,0,0,1,0,0,0,0,0,1,0,0,0,0,1,1,1,0,1,1],\"FLAG\":0,\"BASE\":1}" // Yolo UNO template
 #endif                                                                                                                                                                 // End ESP32
 
 #ifdef ESP8266
+
+// #define MODULE  SMART_PLUG
+#ifdef MODULE
+#undef MODULE
+#endif
+#define MODULE                 SMART_PLUG   // [Module] Select default model (the list is kModuleNiceList() in file tasmota_template.h) (USER_MODULE is the TEMPLATE)
+
+#ifdef FALLBACK_MODULE
+#undef FALLBACK_MODULE
+#endif
+#define FALLBACK_MODULE        SMART_PLUG   // to Select the default model as FALLBACK when the user does a RESET 1 
+
 #ifdef USER_TEMPLATE
 #undef USER_TEMPLATE
 #endif
-#define USER_TEMPLATE "{\"NAME\":\"Generic\",\"GPIO\":[1,1,1,32,2720,2656,1,1,2624,288,224,1,1,1],\"FLAG\":0,\"BASE\":18}"
+#define USER_TEMPLATE "{\"NAME\":\"Smart Plug BSD33-16A\",\"GPIO\":[1,1,1,32,2720,2656,1,1,2624,288,224,1,1,1],\"FLAG\":0,\"BASE\":18}"
 
 #ifdef USE_IR_REMOTE
 #undef USE_IR_REMOTE
 #endif
+
+// #ifdef MQTT_PORT
+// #undef MQTT_PORT
+// #endif
+// #define MQTT_PORT              8883
+
+// #ifndef USE_MQTT_TLS 
+// #define USE_MQTT_TLS                             // Use TLS for MQTT connection (+34.5k code, +7.0k mem and +4.8k additional during connection handshake)
+
+// #ifdef MQTT_TLS_ENABLED
+// #undef MQTT_TLS_ENABLED
+// #endif
+// #define MQTT_TLS_ENABLED       true              // [SetOption103] Enable TLS mode (requires TLS version)
+//  #define USE_MQTT_TLS_CA_CERT                   // Force full CA validation instead of fingerprints, slower, but simpler to use.  (+2.2k code, +1.9k mem during connection handshake)
+                                                   // This includes the LetsEncrypt CA in tasmota_ca.ino for verifying server certificates
+// #endif
 #endif // End ESP8266
+
+#ifdef TELE_PERIOD
+#undef TELE_PERIOD
+#endif
+#define TELE_PERIOD            10
 
 #ifdef APP_TIMEZONE
 #undef APP_TIMEZONE
@@ -299,13 +341,13 @@ Examples :
 #undef USE_MCP39F501
 #endif
 
-// #ifdef USE_BL09XX
-// #undef USE_BL09XX
-// #endif
-
-#ifndef USE_BL09XX
-#define USE_BL09XX
+#ifdef USE_BL09XX
+#undef USE_BL09XX
 #endif
+
+// #ifndef USE_BL09XX
+// #define USE_BL09XX
+// #endif
 
 #ifdef USE_CSE7761
 #undef USE_CSE7761
@@ -348,12 +390,30 @@ Examples :
 
 
 
-// support energy monitor sensors
-#define USE_HLW8012 // Add support for HLW8012, BL0937 or HJL-01 Energy Monitor for Sonoff Pow and WolfBlitz
-#define USE_CSE7766  // Add support for CSE7766 Energy Monitor for Sonoff S31 and Pow R2
-#define USE_PZEM004T // Add support for PZEM004T Energy monitor (+2k code)
-#define USE_PZEM_AC  // Add support for PZEM014,016 Energy monitor (+1k1 code)
-#define USE_PZEM_DC  // Add support for PZEM003,017 Energy monitor (+1k1 code)
+// Support energy monitor sensors
+
+// #define USE_ENERGY_SENSOR  
+#define USE_HLW8012                     // Add support for HLW8012, BL0937 or HJL-01 Energy Monitor for Sonoff Pow and WolfBlitz
+
+
+
+
+#ifdef USE_CSE7766
+#undef USE_CSE7766
+#endif
+#ifdef USE_PZEM004T
+#undef USE_PZEM004T
+#endif
+#ifdef USE_PZEM_AC
+#undef USE_PZEM_AC
+#endif
+#ifdef USE_PZEM_DC
+#undef USE_PZEM_DC
+#endif
+// #define USE_CSE7766  // Add support for CSE7766 Energy Monitor for Sonoff S31 and Pow R2
+// #define USE_PZEM004T // Add support for PZEM004T Energy monitor (+2k code)
+// #define USE_PZEM_AC  // Add support for PZEM014,016 Energy monitor (+1k1 code)
+// #define USE_PZEM_DC  // Add support for PZEM003,017 Energy monitor (+1k1 code)
 
 #ifdef ESP32
 

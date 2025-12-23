@@ -23,8 +23,8 @@ bool (* const xsns_func_ptr[])(uint32_t) PROGMEM = {  // Sensor Function Pointer
 bool (* const xsns_func_ptr[])(uint32_t) = {  // Sensor Function Pointers for simple implementation of sensors
 #endif
 
-#ifdef XSNS_150
-  &Xsns150,
+#ifdef XSNS_128
+  &Xsns128,
 #endif
 
 #ifdef XSNS_01
@@ -535,8 +535,8 @@ bool (* const xsns_func_ptr[])(uint32_t) = {  // Sensor Function Pointers for si
   &Xsns127,
 #endif
 
-// #ifdef XSNS_150
-//   &Xsns150
+// #ifdef XSNS_128
+//   &Xsns128
 // #endif
 };
 
@@ -552,8 +552,8 @@ const uint8_t kXsnsList[] PROGMEM = {
 const uint8_t kXsnsList[] = {
 #endif
 
-#ifdef XSNS_150
-  XSNS_150,
+#ifdef XSNS_128
+  XSNS_128,
 #endif
 
 #ifdef XSNS_01
@@ -1064,8 +1064,8 @@ const uint8_t kXsnsList[] = {
   XSNS_127,
 #endif
 
-// #ifdef XSNS_150
-//   XSNS_150
+// #ifdef XSNS_128
+//   XSNS_128
 // #endif
 };
 

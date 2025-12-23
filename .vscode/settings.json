@@ -3,6 +3,13 @@
     "files.associations": {
         "typeinfo": "cpp",
         "string": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "initializer_list": "cpp",
+        "ostream": "cpp"
     }
 }

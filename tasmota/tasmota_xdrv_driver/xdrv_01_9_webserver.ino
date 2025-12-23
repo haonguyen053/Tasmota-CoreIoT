@@ -2283,13 +2283,40 @@ void HandleModuleConfiguration(void) {
 
   WSContentSendStyle();
   WSContentSend_P(HTTP_FORM_MODULE, AnyModuleName(MODULE).c_str());
+  // for (uint32_t i = 0; i < nitems(template_gp.io); i++) {
+  //   if (ValidGPIO(i, template_gp.io[i])) {
+  //     snprintf_P(stemp, 3, PINS_WEMOS +i*2);
+  //     WSContentSend_P(PSTR("<tr><td style='width:116px'>%s <b>" D_GPIO "%d</b></td><td style='width:146px'><select id='g%d' onchange='ot(%d,this.value)'></select></td>"),
+  //       (WEMOS==TasmotaGlobal.module_type)?stemp:"", i, i, i);
+  //     WSContentSend_P(PSTR("<td style='width:54px'><select id='h%d'></select></td></tr>"), i);
+  //   }
+  // }
+  uint32_t pin_yolouno_idx = 0;
   for (uint32_t i = 0; i < nitems(template_gp.io); i++) {
     if (ValidGPIO(i, template_gp.io[i])) {
-      snprintf_P(stemp, 3, PINS_WEMOS +i*2);
+      stemp[0] = '\0';
+      if (WEMOS==TasmotaGlobal.module_type){
+        snprintf_P(stemp, 3, PINS_WEMOS +i*2);
+      }
+      else if (YOLO_UNO==TasmotaGlobal.module_type){
+        if (0 == i) {
+          snprintf_P(stemp, 5, PINS_YOLO_UNO + pin_yolouno_idx);
+          pin_yolouno_idx = 4;
+        }
+        else if (21 == i || 38 == i || 45 == i || 47 == i || 48 == i){
+          snprintf_P(stemp, 4, PINS_YOLO_UNO + pin_yolouno_idx);
+          pin_yolouno_idx += 3;
+        }
+        else {
+          snprintf_P(stemp, 3, PINS_YOLO_UNO + pin_yolouno_idx);
+          pin_yolouno_idx += 2;
+        }
+      }
       WSContentSend_P(PSTR("<tr><td style='width:116px'>%s <b>" D_GPIO "%d</b></td><td style='width:146px'><select id='g%d' onchange='ot(%d,this.value)'></select></td>"),
-        (WEMOS==TasmotaGlobal.module_type)?stemp:"", i, i, i);
+        stemp, i, i, i);
       WSContentSend_P(PSTR("<td style='width:54px'><select id='h%d'></select></td></tr>"), i);
     }
+    else pin_yolouno_idx += 2;
   }
   WSContentSend_P(PSTR("</table>"));
   WSContentSend_P(HTTP_FORM_END);

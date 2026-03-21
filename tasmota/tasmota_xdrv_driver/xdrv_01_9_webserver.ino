@@ -2298,6 +2298,7 @@ void HandleModuleConfiguration(void) {
       if (WEMOS==TasmotaGlobal.module_type){
         snprintf_P(stemp, 3, PINS_WEMOS +i*2);
       }
+#ifdef ESP_YOLO_UNO
       else if (YOLO_UNO==TasmotaGlobal.module_type){
         if (0 == i) {
           snprintf_P(stemp, 5, PINS_YOLO_UNO + pin_yolouno_idx);
@@ -2312,11 +2313,14 @@ void HandleModuleConfiguration(void) {
           pin_yolouno_idx += 2;
         }
       }
+#endif
       WSContentSend_P(PSTR("<tr><td style='width:116px'>%s <b>" D_GPIO "%d</b></td><td style='width:146px'><select id='g%d' onchange='ot(%d,this.value)'></select></td>"),
         stemp, i, i, i);
       WSContentSend_P(PSTR("<td style='width:54px'><select id='h%d'></select></td></tr>"), i);
     }
+#ifdef ESP_YOLO_UNO
     else pin_yolouno_idx += 2;
+#endif
   }
   WSContentSend_P(PSTR("</table>"));
   WSContentSend_P(HTTP_FORM_END);

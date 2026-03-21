@@ -787,13 +787,54 @@ void MqttDataHandler(char* mqtt_topic, uint8_t* mqtt_data, unsigned int data_len
       strlcpy(requestID, requestIDStr.c_str(), sizeof(requestID));
       // get RPC method and params from payload
       topic[0] = '/';
+
       String methodStr = rootObject.getStr("method", "");
       const char* method = methodStr.c_str();
       strlcpy(topic+1, method, strlen(method)+1);
-      String mqttDataStr= rootObject.getStr("params", "");
+
+      String mqttDataStr = rootObject.getStr("params", "Unable to parse params!");
+
+      if (rootObject["params"].isObject()){ // if rootObject["params"] is not a string but JSON object .getStr won't work so check it
+        AddLog(LOG_LEVEL_DEBUG, PSTR(D_LOG_MQTT "params is an Object"));
+
+        // Construct a string params
+        String newMqttData = "{";
+        bool firstKey = true;
+
+        JsonParserObject paramsObject = rootObject.findStartsWith("params").getObject();
+        for (auto key : paramsObject) {
+          // key is of type JsonParserKey
+          const char *keyName = key.getStr();
+          JsonParserToken keyToken = key.getValue();
+
+          // AddLog(LOG_LEVEL_DEBUG, PSTR(D_LOG_MQTT "Key: %s"), keyName);
+
+          char keyInfo[100];
+          if (firstKey) {
+            if (keyToken.isNum() || keyToken.isBool()) {
+              snprintf_P(keyInfo, sizeof(keyInfo), PSTR("\"%s\":%s"), keyName, keyToken.getStr());
+            } else {
+              snprintf_P(keyInfo, sizeof(keyInfo), PSTR("\"%s\":\"%s\""), keyName, keyToken.getStr());
+            }
+            firstKey = false;
+          } else {
+            if (keyToken.isNum() || keyToken.isBool()) {
+              snprintf_P(keyInfo, sizeof(keyInfo), PSTR(", \"%s\":%s"), keyName, keyToken.getStr());
+            } else {
+              snprintf_P(keyInfo, sizeof(keyInfo), PSTR(", \"%s\":\"%s\""), keyName, keyToken.getStr());
+            }
+          }
+          newMqttData += String(keyInfo);
+        }
+          
+        newMqttData += "}";
+        mqttDataStr = newMqttData;
+      }
+
       strncpy(reinterpret_cast<char*>(mqtt_data),mqttDataStr.c_str(),data_len);
       mqtt_data[data_len] = 0;
       //printf("RPC method: %s params: %s\n", method, mqttDataStr.c_str());
+      AddLog(LOG_LEVEL_DEBUG, PSTR(D_LOG_MQTT "RPC method: %s params: %s"),  method, mqttDataStr.c_str());
     } else {
       // invalid request
       AddLog(LOG_LEVEL_ERROR, PSTR(D_LOG_MQTT "Invalid RPC request topic"), mqtt_topic);

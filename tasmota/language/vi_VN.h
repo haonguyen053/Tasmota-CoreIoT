@@ -44,7 +44,7 @@
 #define D_HOUR_MINUTE_SEPARATOR ":"
 #define D_MINUTE_SECOND_SEPARATOR ":"
 
-#define D_DAY3LIST "CN HaiBa BốnNămSáuBảy"
+#define D_DAY3LIST "CN HaiBa Tư NămSáuBảy"
 #define D_MONTH3LIST "JanFebMarAprMayJunJulAugSepOctNovDec"
 
 // Non JSON decimal separator

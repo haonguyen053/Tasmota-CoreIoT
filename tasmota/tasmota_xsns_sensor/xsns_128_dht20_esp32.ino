@@ -204,7 +204,7 @@ void DHT20Detect(void) {
       GetTextIndexed(dht20_sensors[0].types, sizeof(dht20_sensors[0].types), 0, dhtTypes);
       I2cSetActiveFound(dht20_sensors[0].address, dht20_sensors[0].types);
       dht20.count++;
-      dht20.lastReadTime = millis(); // Initialize timer to start interval
+      dht20.lastReadTime = millis();
     }
 }
 
